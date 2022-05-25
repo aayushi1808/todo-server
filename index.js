@@ -45,5 +45,8 @@ app.delete("/todos/:id", (req, res) => {
   });
 });
 
-app.listen(3000);
-console.log("listening on localhost:3000");
+var port = process.env.PORT||3000;
+
+app.listen(port, ()=> {
+  console.log("listening on "+port);
+});
