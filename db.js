@@ -1,9 +1,12 @@
 const MongoClient = require("mongodb").MongoClient;
 
-const url = "mongodb://127.0.0.1:27017";
+const uri = `mongodb+srv://todoserver:${process.env.MONGO_PASS}@cluster0.v4xsjxk.mongodb.net/?retryWrites=true&w=majority`;
 
 async function getAll() {
-  var client = await MongoClient.connect(url);
+  var client = await MongoClient.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
   var db = client.db("mydb");
   var todos = await db.collection("todos").find().toArray();
   console.log(todos);
@@ -11,14 +14,20 @@ async function getAll() {
 }
 
 async function addTodo(todo) {
-  var client = await MongoClient.connect(url);
+  var client = await MongoClient.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
   var db = client.db("mydb");
   var result = await db.collection("todos").insertOne(todo);
   console.log(result);
 }
 
 async function updateTodo(id) {
-  var client = await MongoClient.connect(url);
+  var client = await MongoClient.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
   var db = client.db("mydb");
   var query = { id: parseInt(id) };
   var todo = await db.collection("todos").findOne(query);
@@ -29,11 +38,14 @@ async function updateTodo(id) {
 }
 
 async function deleteTodo(id) {
-    var client = await MongoClient.connect(url);
-    var db = client.db("mydb");
-    var query = { id: parseInt(id) };
-    var result = await db.collection("todos").deleteOne(query);
-    console.log(result);
+  var client = await MongoClient.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  var db = client.db("mydb");
+  var query = { id: parseInt(id) };
+  var result = await db.collection("todos").deleteOne(query);
+  console.log(result);
 }
 
 module.exports.getAll = getAll;
